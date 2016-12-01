@@ -1,9 +1,11 @@
 package com.yuly.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 
 /**
  * Created by yuliyao on 2016/12/1.
@@ -12,6 +14,8 @@ import javax.annotation.PostConstruct;
 @ConfigurationProperties(prefix = "spring.datasource")
 public class DataSourceConf {
 
+    @Autowired
+    private DataSource dataSource;
     private String url;
     private String username;
     private String password;

@@ -1,4 +1,4 @@
-package com.yuly.entity;
+package com.yuly.model;
 
 /**
  * Created by yuliyao on 2016/11/30.
