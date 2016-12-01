@@ -31,7 +31,7 @@ public class Generator {
             root.put("table", tableModel);
             GenConfig genConfig = SpringUtil.getBean(GenConfig.class);
             root.put("config", genConfig);
-            File file = new File("E:\\00code\\code_generator\\src\\main\\java\\com\\yuly\\model\\TblApplicationShop.java");
+            File file = new File("E:\\00code\\code_generator\\src\\main\\java\\com\\yuly\\model\\" + tableModel.getJavaName() + ".java");
             if(!file.exists()){
                 //System.out.println("file exist");
                 file.createNewFile();

@@ -1,6 +1,8 @@
 package com.yuly.model;
 
 import com.google.common.base.CaseFormat;
+import com.google.common.base.Strings;
+import com.yuly.utils.SpringUtil;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class TableModel {
     public TableModel(String tableName, String tableComment) {
         this.tableName = tableName;
         this.tableComment = tableComment;
-        this.javaName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName);
+        this.javaName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, removePrefix(tableName));
     }
 
     public String getTableName() {
@@ -63,5 +65,16 @@ public class TableModel {
 
     public void setColumnModels(List<ColumnModel> columnModels) {
         this.columnModels = columnModels;
+    }
+
+    public String removePrefix(String tableName) {
+        GenConfig genConfig = SpringUtil.getBean(GenConfig.class);
+        String prefix = genConfig.getTableNamePrefix();
+        if (!Strings.isNullOrEmpty(genConfig.getTableNamePrefix())) {
+            if (prefix.equalsIgnoreCase(tableName.substring(0, prefix.length()))) {
+                return tableName.substring(prefix.length() - 1);
+            }
+        }
+        return tableName;
     }
 }

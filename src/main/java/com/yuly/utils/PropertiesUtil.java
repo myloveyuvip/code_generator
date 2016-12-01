@@ -26,4 +26,5 @@ public class PropertiesUtil {
     public static void main(String[] args) {
         Resource resource = new ClassPathResource("application.properties");
     }
+
 }

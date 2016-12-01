@@ -15,6 +15,8 @@ public class GenConfig {
 
     private String dateString = DateUtil.getDateString();
 
+    private String tableNamePrefix;
+
     public String getPackagePath() {
         return packagePath;
     }
@@ -31,4 +33,11 @@ public class GenConfig {
         this.dateString = dateString;
     }
 
+    public String getTableNamePrefix() {
+        return tableNamePrefix;
+    }
+
+    public void setTableNamePrefix(String tableNamePrefix) {
+        this.tableNamePrefix = tableNamePrefix;
+    }
 }
