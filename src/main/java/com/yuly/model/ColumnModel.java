@@ -44,7 +44,7 @@ public class ColumnModel {
         this.autoIncrement = autoIncrement;
         this.upperJavaName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, columnName);
         this.lowerJavaName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName);
-        this.javaType = DbDataTypesUtils.getPreferredJavaType(dataType, columnSize, decimalDigits);
+        this.javaType = formatJavaType(DbDataTypesUtils.getPreferredJavaType(dataType, columnSize, decimalDigits));
         if (primaryKeys != null && primaryKeys.contains(columnName)) {
             isPrimaryKey = true;
         }
@@ -136,5 +136,12 @@ public class ColumnModel {
 
     public void setAutoIncrement(String autoIncrement) {
         this.autoIncrement = autoIncrement;
+    }
+
+    public String formatJavaType(String javaType) {
+        if (javaType != null) {
+            return javaType.substring(javaType.lastIndexOf(".")+1);
+        }
+        return javaType;
     }
 }

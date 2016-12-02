@@ -23,6 +23,10 @@ public class PropertiesUtil {
         return null;
     }
 
+    public static String getProperty(String key) {
+        return getProperty("/config/genConf.properties", key);
+    }
+
     public static void main(String[] args) {
         Resource resource = new ClassPathResource("application.properties");
     }

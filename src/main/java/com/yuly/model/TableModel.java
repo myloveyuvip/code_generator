@@ -2,7 +2,7 @@ package com.yuly.model;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Strings;
-import com.yuly.utils.SpringUtil;
+import com.yuly.utils.PropertiesUtil;
 
 import java.util.List;
 
@@ -15,7 +15,9 @@ public class TableModel {
 
     private String tableComment;
 
-    private String javaName;
+    private String upperJavaName;
+
+    private String lowerJavaName;
 
     private List<String> primaryKeys;
 
@@ -24,7 +26,8 @@ public class TableModel {
     public TableModel(String tableName, String tableComment) {
         this.tableName = tableName;
         this.tableComment = tableComment;
-        this.javaName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, removePrefix(tableName));
+        this.upperJavaName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, removePrefix(tableName));
+        this.lowerJavaName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, removePrefix(tableName));
     }
 
     public String getTableName() {
@@ -51,12 +54,20 @@ public class TableModel {
         this.primaryKeys = primaryKeys;
     }
 
-    public String getJavaName() {
-        return javaName;
+    public String getUpperJavaName() {
+        return upperJavaName;
     }
 
-    public void setJavaName(String javaName) {
-        this.javaName = javaName;
+    public void setUpperJavaName(String upperJavaName) {
+        this.upperJavaName = upperJavaName;
+    }
+
+    public String getLowerJavaName() {
+        return lowerJavaName;
+    }
+
+    public void setLowerJavaName(String lowerJavaName) {
+        this.lowerJavaName = lowerJavaName;
     }
 
     public List<ColumnModel> getColumnModels() {
@@ -68,11 +79,10 @@ public class TableModel {
     }
 
     public String removePrefix(String tableName) {
-        GenConfig genConfig = SpringUtil.getBean(GenConfig.class);
-        String prefix = genConfig.getTableNamePrefix();
-        if (!Strings.isNullOrEmpty(genConfig.getTableNamePrefix())) {
+        String prefix = PropertiesUtil.getProperty("tableNamePrefix");
+        if (!Strings.isNullOrEmpty(prefix)) {
             if (prefix.equalsIgnoreCase(tableName.substring(0, prefix.length()))) {
-                return tableName.substring(prefix.length() - 1);
+                return tableName.substring(prefix.length());
             }
         }
         return tableName;

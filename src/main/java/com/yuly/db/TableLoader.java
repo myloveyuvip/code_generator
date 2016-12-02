@@ -1,5 +1,6 @@
 package com.yuly.db;
 
+import com.google.common.base.Preconditions;
 import com.yuly.model.ColumnModel;
 import com.yuly.model.TableModel;
 import com.yuly.utils.DataSourceConf;
@@ -37,17 +38,26 @@ public class TableLoader {
      * 加载表结构信息
      * @return
      */
-    public TableModel loadTableInfo(String tableName) {
+    public List<TableModel> loadTableInfo(String... tableNames) {
         DatabaseMetaData databaseMetaData = getDatabaseMetaData();
-        //1.加载表基本信息
-        TableModel tableModel = getTable(databaseMetaData,tableName);
-        //2.加载主键
-        List<String> primaryKeys = getPrimaryKeys(databaseMetaData,tableName);
-        tableModel.setPrimaryKeys(primaryKeys);
-        //3.加载列信息，并判断是否主键
-        tableModel.setColumnModels(getColumns(databaseMetaData, tableName, primaryKeys));
-        log.info("=========="+tableName+"表结构信息："+ JsonUtil.toJson(tableModel));
-        return tableModel;
+        Preconditions.checkNotNull(tableNames, "表名不能为空!");
+        List<TableModel> tableModelList = new ArrayList<>();
+        for (String tableName : tableNames) {
+            //1.加载表基本信息
+            List<TableModel> tableModels = getTables(databaseMetaData,tableName);
+            if (tableModels != null && tableModels.size() > 0) {
+                for (TableModel tableModel : tableModels) {
+                    //2.加载主键
+                    List<String> primaryKeys = getPrimaryKeys(databaseMetaData,tableModel.getTableName());
+                    tableModel.setPrimaryKeys(primaryKeys);
+                    //3.加载列信息，并判断是否主键
+                    tableModel.setColumnModels(getColumns(databaseMetaData, tableModel.getTableName(), primaryKeys));
+                    log.info("=========="+tableModel.getTableName()+"表结构信息："+ JsonUtil.toJson(tableModel));
+                }
+            }
+            tableModelList.addAll(tableModels);
+        }
+        return tableModelList;
     }
 
     /**
@@ -69,19 +79,20 @@ public class TableLoader {
      * @param databaseMetaData
      * @return
      */
-    public TableModel getTable(DatabaseMetaData databaseMetaData,String table) {
-        TableModel tableModel = null;
+    public List<TableModel> getTables(DatabaseMetaData databaseMetaData,String table) {
+        List<TableModel> tableModels = new ArrayList<>();
         try {
             ResultSet rs = databaseMetaData.getTables(null, null, table, new String[]{});
             while (rs.next()) {
                 String tableName = rs.getString("TABLE_NAME");
                 String comment = rs.getString("REMARKS");
-                tableModel = new TableModel(tableName,comment);
+                TableModel tableMode = new TableModel(tableName,comment);
+                tableModels.add(tableMode);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return tableModel;
+        return tableModels;
     }
 
     /**

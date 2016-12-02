@@ -1,5 +1,6 @@
 package ${config.packagePath}.model;
 
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "${table.tableName}")
-public class ${table.javaName} {
+public class ${table.upperJavaName} {
 <#list table.columnModels as column>
 
     <#if column.columnComment!="">

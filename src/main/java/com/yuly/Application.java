@@ -1,7 +1,6 @@
 package com.yuly;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yuly.db.TableLoader;
 import com.yuly.generator.Generator;
 import com.yuly.model.TableModel;
@@ -9,6 +8,8 @@ import com.yuly.utils.SpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+
+import java.util.List;
 
 /**
  * Created by yuliyao on 2016/11/30.
@@ -21,11 +22,15 @@ public class Application {
         SpringUtil.setApplicationContext(applicationContext);
 
         TableLoader tableLoader = SpringUtil.getBean(TableLoader.class);
-        TableModel tableModel = tableLoader.loadTableInfo("tbl_application_shop");
-        Generator.createFile(tableModel);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(objectMapper.writeValueAsString(tableModel));
+        List<TableModel> tableModelList = tableLoader.loadTableInfo("%materiel%","tbl_repository");
+        if (tableModelList != null && tableModelList.size() > 0) {
+            for (TableModel tableModel : tableModelList) {
+                Generator.createModel(tableModel);
+                Generator.createService(tableModel);
+                Generator.createLogic(tableModel);
+                Generator.createController(tableModel);
+            }
+        }
 
     }
 
