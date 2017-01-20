@@ -17,6 +17,8 @@ public class GenConfig {
 
     private String tableNamePrefix;
 
+    private String module;
+
     public String getPackagePath() {
         return packagePath;
     }
@@ -39,5 +41,13 @@ public class GenConfig {
 
     public void setTableNamePrefix(String tableNamePrefix) {
         this.tableNamePrefix = tableNamePrefix;
+    }
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
     }
 }

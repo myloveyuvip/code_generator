@@ -19,7 +19,7 @@ public class ${table.upperJavaName}Controller extends BaseController {
     private ${table.upperJavaName}Logic ${table.lowerJavaName}Logic;
 
     @RequestMapping("/page/list")
-    @RmsModelOperation(modelName = "模块", operation = "查询页面")
+    @RmsModelOperation(modelName = "模块", operation = "查询跳转")
     public String ${table.lowerJavaName}PageList(HttpServletRequest request) {
         this.${table.lowerJavaName}Logic.${table.lowerJavaName}PageList(request);
         return "/${table.lowerJavaName}/list${table.upperJavaName}";
@@ -29,7 +29,7 @@ public class ${table.upperJavaName}Controller extends BaseController {
     @RmsDataRight(cityId = "cityId", subRegionId = "subRegion", salesRegionId = "salesRegion")
     @RequestMapping("/list")
     @ResponseBody
-    public String ${table.lowerJavaName}List(HttpServletRequest request, ${table.upperJavaName} ${table.lowerJavaName}Form) {
-        return this.${table.lowerJavaName}Logic.${table.lowerJavaName}List(request, ${table.lowerJavaName}Form);
+    public PagerBean<${table.upperJavaName}> ${table.lowerJavaName}List(HttpServletRequest request, ${table.upperJavaName} ${table.lowerJavaName}Form) {
+        return ${table.lowerJavaName}Logic.${table.lowerJavaName}List(request, ${table.lowerJavaName}Form);
     }
 }

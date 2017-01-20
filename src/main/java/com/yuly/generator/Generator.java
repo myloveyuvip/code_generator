@@ -66,6 +66,11 @@ public class Generator {
         createFile(tableModel, "controller", "Controller");
     }
 
+    public static void createView(TableModel tableModel) {
+        createFile(tableModel, "list.jsp", "List");
+        createFile(tableModel, "list.js", "List");
+    }
+
     private static String getOutDir(String modelName) {
         String outDir = PropertiesUtil.getProperty("out.dir") + "/" + PropertiesUtil.getProperty("package.path") + "/" + modelName;
         String outDir2 = "";

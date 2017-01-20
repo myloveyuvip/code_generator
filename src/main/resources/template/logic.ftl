@@ -16,13 +16,12 @@ public class ${table.upperJavaName}Logic extends BaseLogic {
     public void ${table.lowerJavaName}PageList(HttpServletRequest request) {
     }
 
-    public String ${table.lowerJavaName}List(HttpServletRequest request, ${table.upperJavaName} ${table.lowerJavaName}) {
+    public PagerBean<${table.upperJavaName}> ${table.lowerJavaName}List(HttpServletRequest request, ${table.upperJavaName} ${table.lowerJavaName}) {
         PagerBean<${table.upperJavaName}> pager = new PagerBean()<>;
         int offset = getIntParam(request, "offset").intValue();
         int limit = getIntParam(request, "limit").intValue();
         pager.setLimit(limit);
         pager.setOffset(offset);
-        this.${table.lowerJavaName}Service.findPaginated(pager, ${table.lowerJavaName});
-        return Result.returnDataResult(pager);
+        return ${table.lowerJavaName}Service.findPaginated(pager, ${table.lowerJavaName});
     }
 }

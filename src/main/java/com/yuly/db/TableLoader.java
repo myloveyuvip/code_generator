@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,6 +125,10 @@ public class TableLoader {
                 String column = rs.getString("COLUMN_NAME");
                 String type = rs.getString("TYPE_NAME");
                 int dataType = rs.getInt("DATA_TYPE");
+                //RMS将时间类型设为int，此处做转换
+                if (dataType == Types.INTEGER && (column.contains("time") || column.contains("date"))) {
+                    dataType = Types.TIMESTAMP;
+                }
                 int columnSize = rs.getInt("COLUMN_SIZE");
                 int decimalDigits = rs.getInt("DECIMAL_DIGITS");
                 String comment = rs.getString("REMARKS");
