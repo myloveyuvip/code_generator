@@ -43,10 +43,13 @@
                                 <input id="end${column.upperJavaName}" readonly=true name="end${column.upperJavaName}" class="form-control layer-date"
                                        style="width:46%" onclick="laydate({format: 'YYYY-MM-DD',min:$('#begin${column.upperJavaName}').val()})">
                             </div>
-                        <#else>
-
+                        <#elseif  column.constantData==true>
                             <div class="col-sm-2">
-                                <input id="${column.lowerJavaName}" class="form-control" name="${column.lowerJavaName}">
+                                <select id="${column.lowerJavaName}" name="${column.lowerJavaName}" class="form-control"></select>
+                            </div>
+                        <#else>
+                            <div class="col-sm-2">
+                                <input id="${column.lowerJavaName}" name="${column.lowerJavaName}" class="form-control">
                             </div>
                         </#if>
                         <#if column_index%3==2>
@@ -70,64 +73,6 @@
                             </div>
                         </div>
                         </#if>
-                        <#--<div class="form-group">
-                            <label class="control-label col-sm-1">单据编号</label>
-
-                            <div class="col-sm-2">
-                                <input id="orderSn" class="form-control" name="orderSn">
-                            </div>
-
-                            <label class="control-label col-sm-1">申请人名称</label>
-
-                            <div class="col-sm-2">
-                                <input id="submitterName" class="form-control" name="application.submitterName" value="">
-                            </div>
-
-                            <label class="control-label col-sm-1">申请人工号</label>
-
-                            <div class="col-sm-2">
-                                <input id="submitterEmployeeNumber" class="form-control" name="application.submitterEmployeeNumber">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-1">单据状态</label>
-
-                            <div class="col-sm-2">
-                                <select class="form-control" name="application.orderStatus" id="orderStatus"></select>
-                            </div>
-
-                            <label class="control-label col-sm-1">申请日期</label>
-
-                            <div class="col-sm-3">
-                                <input id="applyBeginTime" readonly=true name="application.applyBeginTime"
-                                       class="form-control layer-date" style="width:46%"
-                                       onclick="laydate({format: 'YYYY-MM-DD',max:$('#applyEndTime').val()})">至
-                                <input id="applyEndTime" readonly=true name="application.applyEndTime" class="form-control layer-date"
-                                       style="width:46%" onclick="laydate({format: 'YYYY-MM-DD',min:$('#applyBeginTime').val()})">
-                            </div>
-
-                            <label class="control-label col-sm-1">审批结束日期</label>
-
-                            <div class="col-sm-3">
-                                <input id="approvedBeginTime" readonly=true
-                                       name="application.approvedBeginTime"
-                                       class="form-control layer-date"
-                                       style="width:46%"
-                                       onclick="laydate({format: 'YYYY-MM-DD',max:$('#approvedEndTime').val()})">
-                                <span class="control-label">至</span>
-                                <input id="approvedEndTime" readonly=true name="application.approvedEndTime" class="form-control layer-date"
-                                       style="width:46%"
-                                       onclick="laydate({format: 'YYYY-MM-DD',min:$('#approvedBeginTime').val()})">
-                            </div>
-
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3 col-sm-offset-9 form-inline">
-                                <button type="button" class="btn btn-info" id="query-btn">查询</button>
-                                <button type="button" class="btn btn-info" id="reset-btn" style="margin-left:5px">重置</button>
-                                <button type="button" class="btn btn-info" id="export-btn" style="margin-left:5px">导出</button>
-                            </div>
-                        </div>-->
                     </form>
                     <table id="table">
                         <thead>
@@ -147,7 +92,7 @@
 <script src="/res/js/require-config.js"></script>
 <script src="/res/js/content.min.js?v=1.0.0"></script>
 <script src="/res/js/plugins/layer/laydate/laydate.js"></script>
-<script src="/res/js/common/common.js"></script>
-<script src="/materiel/list${table.upperJavaName}.js?<%= JSVersion.jsVersion %>"></script>
+<script src="/res/js/common/common.js?<%= JSVersion.jsVersion %>"></script>
+<script src="/${config.module}/list${table.upperJavaName}.js?<%= JSVersion.jsVersion %>"></script>
 </body>
 </html>

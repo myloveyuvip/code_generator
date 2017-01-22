@@ -64,7 +64,12 @@ require(['select2', 'select2CN', 'bootstrapTable', 'bootstrapTableCN', 'bootstra
     })
 
     //绑定下拉框
-    bindSelect("orderStatus", "/select/getOrderStatusSelectNoTemp.do");
+    <#list table.columnModels as column>
+        <#if column.constantData==true>
+    bindSelect("${column.lowerJavaName}", "/select/getCommonSelect.do?model=${config.module}&type=${column.columnName}");   //${column.columnComment}
+        </#if>
+    </#list>
+
 })
 
 var operateFormatter = function (value, row) {

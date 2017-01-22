@@ -4,6 +4,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 /**
@@ -15,7 +16,7 @@ public class PropertiesUtil {
     public static String getProperty(String filePath,String key) {
         Properties properties = new Properties();
         try {
-            properties.load(PropertiesUtil.class.getResourceAsStream(filePath));
+            properties.load(new InputStreamReader(PropertiesUtil.class.getResourceAsStream(filePath),"UTF-8"));
             return properties.getProperty(key);
         } catch (IOException e) {
             e.printStackTrace();

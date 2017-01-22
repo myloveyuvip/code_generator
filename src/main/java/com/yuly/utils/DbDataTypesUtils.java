@@ -67,6 +67,10 @@ public class DbDataTypesUtils {
 			}
 		}
 		String result = _preferredJavaTypeForSqlType.getString(sqlType);
+		//RMS：时间类型定义对int
+		if (sqlType == Types.TIMESTAMP) {
+			result = "java.lang.Integer";
+		}
 		if (result == null) {
 			result = "java.lang.Object";
 		}

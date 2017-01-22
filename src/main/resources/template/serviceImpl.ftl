@@ -1,23 +1,25 @@
 package ${config.packagePath}.service.impl;
 
-import cn.nubia.tcm.framework.BaseService;
 import cn.nubia.tcm.common.PagerBean;
+import cn.nubia.tcm.framework.BaseService;
 import ${config.packagePath}.model.${table.upperJavaName};
 import ${config.packagePath}.service.${table.upperJavaName}Service;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Arrays;
+import cn.nubia.tcm.util.DateTool;
 import com.google.common.base.Strings;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 
 @Service
 public class ${table.upperJavaName}ServiceImpl extends BaseService<${table.upperJavaName}> implements ${table.upperJavaName}Service {
 
     @Override
     public PagerBean<${table.upperJavaName}> findPaginated(PagerBean<${table.upperJavaName}> pager, ${table.upperJavaName} ${table.lowerJavaName}) {
-        List list = getBaicHqlAndParam(${table.lowerJavaName});
+        List list = getBasicHqlAndParam(${table.lowerJavaName});
         String hql = (String) list.get(0);
         Map map = (Map) list.get(1);
         long totalCount = queryCount(hql, map);
@@ -29,7 +31,7 @@ public class ${table.upperJavaName}ServiceImpl extends BaseService<${table.upper
 
     @Override
     public List<${table.upperJavaName}> queryList(${table.upperJavaName} ${table.lowerJavaName}) {
-        List list = getBaicHqlAndParam(${table.lowerJavaName});
+        List list = getBasicHqlAndParam(${table.lowerJavaName});
         return find((String) list.get(0), (Map) list.get(1));
     }
 
@@ -53,7 +55,7 @@ public class ${table.upperJavaName}ServiceImpl extends BaseService<${table.upper
     </#if>
     </#list>
 
-    private List getBaicHqlAndParam(${table.upperJavaName} ${table.lowerJavaName}) {
+    private List getBasicHqlAndParam(${table.upperJavaName} ${table.lowerJavaName}) {
         StringBuffer hql = new StringBuffer("from ${table.upperJavaName} where 1=1 ");
         Map<String, Object> map = new HashMap();
         <#list table.columnModels as column>
@@ -66,6 +68,21 @@ public class ${table.upperJavaName}ServiceImpl extends BaseService<${table.upper
         if (${table.lowerJavaName}.get${column.upperJavaName}() != null) {
             hql.append(" and ${column.lowerJavaName} = :${column.lowerJavaName} ");
             map.put("${column.lowerJavaName}", ${table.lowerJavaName}.get${column.upperJavaName}());
+        }
+        </#if>
+        <#--时间类型生成开始和结束查询条件-->
+        <#if column.dataType == 93>
+        try {
+            if (!Strings.isNullOrEmpty(${table.lowerJavaName}.getBegin${column.upperJavaName}())) {
+                hql.append(" and ${column.lowerJavaName} >= :begin${column.upperJavaName} ");
+                map.put("begin${column.upperJavaName}", DateTool.stringDateToInt(${table.lowerJavaName}.getBegin${column.upperJavaName}()));
+            }
+            if (!Strings.isNullOrEmpty(${table.lowerJavaName}.getEnd${column.upperJavaName}())) {
+                hql.append(" and ${column.lowerJavaName} <= :end${column.upperJavaName} ");
+                map.put("end${column.upperJavaName}", DateTool.stringDateToInt(${table.lowerJavaName}.getEnd${column.upperJavaName}()+" 23:59:59"));
+            }
+        } catch(ParseException e) {
+            e.printStackTrace();
         }
         </#if>
         </#list>

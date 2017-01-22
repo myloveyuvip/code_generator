@@ -19,20 +19,22 @@ import java.util.Map;
  */
 public class Generator {
 
-    public static void createFile(TableModel tableModel, String modelName, String fileNameSuffix) {
+    public static void createFile(TableModel tableModel, String tplFileName, String outPath) {
         Configuration config = new Configuration();
-        ClassPathResource resource = new ClassPathResource("template/" + modelName + ".ftl");
+        ClassPathResource resource = new ClassPathResource("template/" + tplFileName);
         try {
             config.setObjectWrapper(new DefaultObjectWrapper());
             config.setDirectoryForTemplateLoading(resource.getFile().getParentFile());
-            Template template = config.getTemplate(modelName + ".ftl", "UTF-8");
+            Template template = config.getTemplate(tplFileName, "UTF-8");
+            //传参生成文件
             Map root = new HashMap();
             root.put("table", tableModel);
             GenConfig genConfig = new GenConfig();
             genConfig.setPackagePath(PropertiesUtil.getProperty("package.path"));
+            genConfig.setModule(PropertiesUtil.getProperty("module"));
+            genConfig.setModuleName(PropertiesUtil.getProperty("moduleName"));
             root.put("config", genConfig);
-            String outDir = getOutDir(modelName);
-            File file = new File(outDir + "/" + tableModel.getUpperJavaName() + fileNameSuffix + ".java");
+            File file = new File(outPath);
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
@@ -50,29 +52,46 @@ public class Generator {
     }
 
     public static void createModel(TableModel tableModel) {
-        createFile(tableModel, "model", "");
+        String outPath = getJavaOutDir("model") + "/" + tableModel.getUpperJavaName() + ".java";
+        createFile(tableModel, "model.ftl", outPath);
     }
 
     public static void createService(TableModel tableModel) {
-        createFile(tableModel, "service", "Service");
-        createFile(tableModel, "service.impl", "ServiceImpl");
+        String servicePath = getJavaOutDir("service") + "/" + tableModel.getUpperJavaName() + "Service.java";
+        createFile(tableModel, "service.ftl", servicePath);
+        String serviceImplPath = getJavaOutDir("service/impl") + "/" + tableModel.getUpperJavaName() + "ServiceImpl.java";
+        createFile(tableModel, "serviceImpl.ftl", serviceImplPath);
     }
 
     public static void createLogic(TableModel tableModel) {
-        createFile(tableModel, "logic", "Logic");
+        String outPath = getJavaOutDir("logic") + "/" + tableModel.getUpperJavaName() + "Logic.java";
+        createFile(tableModel, "logic.ftl", outPath);
     }
 
     public static void createController(TableModel tableModel) {
-        createFile(tableModel, "controller", "Controller");
+        String outPath = getJavaOutDir("controller") + "/" + tableModel.getUpperJavaName() + "Controller.java";
+        createFile(tableModel, "controller.ftl", outPath);
     }
 
     public static void createView(TableModel tableModel) {
-        createFile(tableModel, "list.jsp", "List");
-        createFile(tableModel, "list.js", "List");
+        //带ID的字段在页面不展示
+        for (int i = tableModel.getColumnModels().size() - 1; i >= 0; i--) {
+            if (tableModel.getColumnModels().get(i).getUpperJavaName().endsWith("Id")) {
+                tableModel.getColumnModels().remove(i);
+            }
+        }
+        String jspPath = PropertiesUtil.getProperty("out.dir") + "/webapp/" + PropertiesUtil.getProperty("module") + "/list" + tableModel
+                .getUpperJavaName()
+                + ".jsp";
+        createFile(tableModel, "list.jsp.ftl", jspPath);
+        String jsPath = PropertiesUtil.getProperty("out.dir") + "/webapp/" + PropertiesUtil.getProperty("module") + "/list" + tableModel
+                .getUpperJavaName()
+                + ".js";
+        createFile(tableModel, "list.js.ftl", jsPath);
     }
 
-    private static String getOutDir(String modelName) {
-        String outDir = PropertiesUtil.getProperty("out.dir") + "/" + PropertiesUtil.getProperty("package.path") + "/" + modelName;
+    private static String getJavaOutDir(String modelName) {
+        String outDir = PropertiesUtil.getProperty("out.dir") + "/java/" + PropertiesUtil.getProperty("package.path") + "/" + modelName;
         String outDir2 = "";
         if (!Strings.isNullOrEmpty(outDir)) {
             for (String pack : outDir.split("\\.")) {

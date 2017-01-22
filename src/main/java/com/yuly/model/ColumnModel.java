@@ -32,6 +32,11 @@ public class ColumnModel {
 
     private boolean isPrimaryKey = false;
 
+    /**
+     * 是否在常量表配置，用于生成查询条件下拉框
+     */
+    private boolean isConstantData = false;
+
     public ColumnModel(String columnName, String columnComment, String typeName, int dataType, int columnSize, int decimalDigits, String
             autoIncrement, List<String>
             primaryKeys) {
@@ -136,6 +141,14 @@ public class ColumnModel {
 
     public void setAutoIncrement(String autoIncrement) {
         this.autoIncrement = autoIncrement;
+    }
+
+    public boolean isConstantData() {
+        return isConstantData;
+    }
+
+    public void setConstantData(boolean constantData) {
+        isConstantData = constantData;
     }
 
     public String formatJavaType(String javaType) {

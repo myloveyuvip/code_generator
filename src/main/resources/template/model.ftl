@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Created by CodeGenerator on ${config.dateString}.
@@ -31,6 +32,25 @@ public class ${table.upperJavaName} {
     </#if>
     @Column(name = "${column.columnName}")
     private ${column.javaType} ${column.lowerJavaName};
+
+    <#--时间类型生成开始和结束查询条件-->
+    <#if column.dataType == 93>
+    <#if column.columnComment!="">
+    /**
+     * ${column.columnComment}开始
+     */
+    </#if>
+    @Transient
+    private String begin${column.upperJavaName};
+
+    <#if column.columnComment!="">
+    /**
+     * ${column.columnComment}结束
+     */
+    </#if>
+    @Transient
+    private String end${column.upperJavaName};
+    </#if>
 </#list>
 <#list table.columnModels as column>
 
@@ -41,6 +61,25 @@ public class ${table.upperJavaName} {
     public void set${column.upperJavaName}(${column.javaType} ${column.lowerJavaName}) {
         this.${column.lowerJavaName} = ${column.lowerJavaName};
     }
+
+    <#--时间类型生成开始和结束查询条件-->
+    <#if column.dataType == 93>
+    public String getBegin${column.upperJavaName}() {
+        return begin${column.upperJavaName};
+    }
+
+    public void setBegin${column.upperJavaName}(String begin${column.upperJavaName}) {
+        this.begin${column.upperJavaName} = begin${column.upperJavaName};
+    }
+
+    public String getEnd${column.upperJavaName}() {
+        return end${column.upperJavaName};
+    }
+
+    public void setEnd${column.upperJavaName}(String end${column.upperJavaName}) {
+        this.end${column.upperJavaName} = end${column.upperJavaName};
+    }
+    </#if>
 </#list>
 
 }
