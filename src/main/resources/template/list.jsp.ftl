@@ -37,11 +37,17 @@
                             <label class="control-label col-sm-1">${column.columnComment}</label>
                         <#if column.dataType==93>
                             <div class="col-sm-3">
-                                <input id="begin${column.upperJavaName}" readonly=true name="begin${column.upperJavaName}"
-                                class="form-control layer-date" style="width:46%"
-                                onclick="laydate({format: 'YYYY-MM-DD',max:$('#end${column.upperJavaName}').val()})">至
-                                <input id="end${column.upperJavaName}" readonly=true name="end${column.upperJavaName}" class="form-control layer-date"
-                                       style="width:46%" onclick="laydate({format: 'YYYY-MM-DD',min:$('#begin${column.upperJavaName}').val()})">
+                                <div class="form-inline">
+                                    <div class="input-group">
+                                        <input id="begin${column.upperJavaName}" readonly=true name="begin${column.upperJavaName}" class="form-control layer-date"
+                                               onclick="laydate({format: 'YYYY-MM-DD',max:$('#end${column.upperJavaName}').val()})">
+                                    </div>
+                                    <label>至</label>
+                                    <div class="input-group">
+                                        <input id="end${column.upperJavaName}" readonly=true name="end${column.upperJavaName}" class="form-control layer-date"
+                                               onclick="laydate({format: 'YYYY-MM-DD',min:$('#begin${column.upperJavaName}').val()})">
+                                    </div>
+                                </div>
                             </div>
                         <#elseif  column.constantData==true>
                             <div class="col-sm-2">

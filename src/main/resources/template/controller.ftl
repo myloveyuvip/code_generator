@@ -1,6 +1,7 @@
 package ${config.packagePath}.controller;
 
 import cn.nubia.tcm.common.PagerBean;
+import cn.nubia.tcm.common.Result;
 import cn.nubia.tcm.framework.annotation.RmsDataRight;
 import cn.nubia.tcm.framework.annotation.RmsModelOperation;
 import ${config.packagePath}.logic.${table.upperJavaName}Logic;
@@ -22,7 +23,7 @@ public class ${table.upperJavaName}Controller extends BaseController {
     @RequestMapping("/page/list")
     @RmsModelOperation(modelName = "${config.moduleName}模块", operation = "查询跳转")
     public String ${table.lowerJavaName}PageList(HttpServletRequest request) {
-        this.${table.lowerJavaName}Logic.${table.lowerJavaName}PageList(request);
+        ${table.lowerJavaName}Logic.${table.lowerJavaName}PageList(request);
         return "/${config.module}/list${table.upperJavaName}";
     }
 
@@ -31,6 +32,16 @@ public class ${table.upperJavaName}Controller extends BaseController {
     @RequestMapping("/list")
     @ResponseBody
     public PagerBean<${table.upperJavaName}> ${table.lowerJavaName}List(HttpServletRequest request, ${table.upperJavaName} ${table.lowerJavaName}Form) {
-        return ${table.lowerJavaName}Logic.${table.lowerJavaName}List(request, ${table.lowerJavaName}Form);
+        PagerBean<${table.upperJavaName}> pager = new PagerBean<>();
+        pager.setLimit(getIntParam(request, "limit").intValue());
+        pager.setOffset(getIntParam(request, "offset").intValue());
+        return ${table.lowerJavaName}Logic.${table.lowerJavaName}List(pager, ${table.lowerJavaName}Form);
+    }
+
+    @RmsModelOperation(modelName = "${config.moduleName}模块", operation = "列表信息导出")
+    @RequestMapping("/export")
+    @ResponseBody
+    public Result export(HttpServletRequest request, ${table.upperJavaName} ${table.lowerJavaName}Form) {
+        return ${table.lowerJavaName}Logic.export(${table.lowerJavaName}Form);
     }
 }

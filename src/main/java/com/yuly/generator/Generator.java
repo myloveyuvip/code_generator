@@ -88,6 +88,9 @@ public class Generator {
                 .getUpperJavaName()
                 + ".js";
         createFile(tableModel, "list.js.ftl", jsPath);
+        // TODO: 2017/1/23  默认生成导出功能，回头改成可配置
+        String xmlPath = PropertiesUtil.getProperty("out.dir") + "/webapp/config/export/" + tableModel.getLowerJavaName() + "_export.xml";
+        createFile(tableModel, "export.xml.ftl", xmlPath);
     }
 
     private static String getJavaOutDir(String modelName) {
