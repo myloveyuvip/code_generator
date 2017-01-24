@@ -3,6 +3,7 @@ package ${config.packagePath}.service;
 import cn.nubia.tcm.framework.Service;
 import cn.nubia.tcm.common.PagerBean;
 import ${config.packagePath}.model.${table.upperJavaName};
+
 import java.util.List;
 
 public interface ${table.upperJavaName}Service extends Service<${table.upperJavaName}> {

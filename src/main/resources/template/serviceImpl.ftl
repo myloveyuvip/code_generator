@@ -12,7 +12,6 @@ import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 
 @Service
@@ -62,15 +61,18 @@ public class ${table.upperJavaName}ServiceImpl extends BaseService<${table.upper
         <#list table.columnModels as column>
         <#if column.javaType == "String">
         if (!Strings.isNullOrEmpty(${table.lowerJavaName}.get${column.upperJavaName}())) {
-            hql.append(" and ${column.lowerJavaName} = :${column.lowerJavaName} ");
-            map.put("${column.lowerJavaName}", ${table.lowerJavaName}.get${column.upperJavaName}());
-        }
         <#else>
         if (${table.lowerJavaName}.get${column.upperJavaName}() != null) {
+        </#if>
+            <#--如果字段名带有name/code，则使用模糊查询-->
+            <#if column.upperJavaName?contains("Name") || column.upperJavaName?contains("Code")>
+            hql.append(" and ${column.lowerJavaName} like :${column.lowerJavaName} ");
+            map.put("${column.lowerJavaName}", "%" + ${table.lowerJavaName}.get${column.upperJavaName}() + "%");
+            <#else>
             hql.append(" and ${column.lowerJavaName} = :${column.lowerJavaName} ");
             map.put("${column.lowerJavaName}", ${table.lowerJavaName}.get${column.upperJavaName}());
+            </#if>
         }
-        </#if>
         <#--时间类型生成开始和结束查询条件-->
         <#if column.dataType == 93>
         try {
@@ -80,9 +82,9 @@ public class ${table.upperJavaName}ServiceImpl extends BaseService<${table.upper
             }
             if (!Strings.isNullOrEmpty(${table.lowerJavaName}.getEnd${column.upperJavaName}())) {
                 hql.append(" and ${column.lowerJavaName} <= :end${column.upperJavaName} ");
-                map.put("end${column.upperJavaName}", DateTool.stringDateToInt(${table.lowerJavaName}.getEnd${column.upperJavaName}()+" 23:59:59"));
+                map.put("end${column.upperJavaName}", DateTool.stringDateToInt(${table.lowerJavaName}.getEnd${column.upperJavaName}() + " 23:59:59"));
             }
-        } catch(ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         </#if>

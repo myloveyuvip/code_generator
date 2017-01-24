@@ -83,11 +83,17 @@
                     <table id="table">
                         <thead>
                             <#list table.columnModels as column>
-                            <th data-field="${column.lowerJavaName}"<#if column.dataType==93> data-formatter="tableDateFormat"</#if>>${column
-                            .columnComment}</th>
+                            <#if column.dataType==93>
+                            <th data-field="${column.lowerJavaName}" data-formatter="tableDateFormat">${column.columnComment}</th>
+                            <#elseif column.constantData==true>
+                            <th data-field="${column.lowerJavaName}Show" >${column.columnComment}</th>
+                            <#else>
+                            <th data-field="${column.lowerJavaName}">${column.columnComment}</th>
+                            </#if>
                             </#list>
                             <th data-formatter="operateFormatter" data-align="center">操作</th>
                         </thead>
+
                     </table>
                 </div>
             </div>

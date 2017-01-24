@@ -153,7 +153,8 @@ public class TableLoader {
                 int decimalDigits = rs.getInt("DECIMAL_DIGITS");
                 String comment = rs.getString("REMARKS");
                 String autoIncrement = rs.getString("IS_AUTOINCREMENT");
-                ColumnModel columnModel = new ColumnModel(column, comment, type, dataType, columnSize, decimalDigits, autoIncrement, primartyKeys);
+                ColumnModel columnModel = new ColumnModel(column, trimSpecial(comment), type, dataType, columnSize, decimalDigits, autoIncrement,
+                        primartyKeys);
                 //判断字段是否在常量表中配置成下拉框
                 String sql = "select count(*) cnt from tbl_constants_data d where d.model=? and type=?";
                 PreparedStatement pst = getConnection().prepareStatement(sql);
@@ -187,4 +188,27 @@ public class TableLoader {
         }
         return conn;
     }
+
+    /**
+     * 字符串中首次出现特殊字符的位置
+     * @param str
+     * @return
+     */
+    private String trimSpecial(String str) {
+        if (Strings.isNullOrEmpty(str)) {
+            return "";
+        }
+        int index = str.length();
+        char[] charArray = str.toCharArray();
+        for (int i = 0; i < charArray.length; i++) {
+            //不是中文也不是英文或数字
+            if (!((charArray[i] >= 0x4e00) && (charArray[i] <= 0x9fbb)) && !((charArray[i] >= 48 && charArray[i] <= 57) ||
+                    (charArray[i] >= 65 && charArray[i] <= 90) || (charArray[i] >= 97 && charArray[i] <= 122))) {
+                index = i;
+                break;
+            }
+        }
+        return str.substring(0,index);
+    }
+
 }

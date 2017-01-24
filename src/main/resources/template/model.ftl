@@ -32,9 +32,9 @@ public class ${table.upperJavaName} {
     </#if>
     @Column(name = "${column.columnName}")
     private ${column.javaType} ${column.lowerJavaName};
-
     <#--时间类型生成开始和结束查询条件-->
     <#if column.dataType == 93>
+
     <#if column.columnComment!="">
     /**
      * ${column.columnComment}开始
@@ -51,6 +51,15 @@ public class ${table.upperJavaName} {
     @Transient
     private String end${column.upperJavaName};
     </#if>
+    <#--是否配置为常量-->
+    <#if column.constantData==true>
+
+    /**
+     * ${column.columnComment}名称展示
+     */
+    @Transient
+    private String ${column.lowerJavaName}Show;
+    </#if>
 </#list>
 <#list table.columnModels as column>
 
@@ -61,9 +70,9 @@ public class ${table.upperJavaName} {
     public void set${column.upperJavaName}(${column.javaType} ${column.lowerJavaName}) {
         this.${column.lowerJavaName} = ${column.lowerJavaName};
     }
-
     <#--时间类型生成开始和结束查询条件-->
     <#if column.dataType == 93>
+
     public String getBegin${column.upperJavaName}() {
         return begin${column.upperJavaName};
     }
@@ -80,6 +89,16 @@ public class ${table.upperJavaName} {
         this.end${column.upperJavaName} = end${column.upperJavaName};
     }
     </#if>
-</#list>
+    <#--是否配置为常量-->
+    <#if column.constantData==true>
 
+    public String get${column.upperJavaName}Show() {
+        return ${column.lowerJavaName}Show;
+    }
+
+    public void set${column.upperJavaName}Show(String ${column.lowerJavaName}Show) {
+        this.${column.lowerJavaName}Show = ${column.lowerJavaName}Show;
+    }
+    </#if>
+</#list>
 }

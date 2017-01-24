@@ -12,7 +12,12 @@
         <header isshow="true">
             <#list table.columnModels as column>
             <cell
+                    <#--如果是属性表配置，则取属性名称-->
+                    <#if column.constantData==true>
+                    name="${column.lowerJavaName}Show"
+                    <#else>
                     name="${column.lowerJavaName}"
+                    </#if>
                     desc="${column.columnComment}"
                     <#--判断字段类型，默认文本类型；时间类型则默认格式化为yyyy-MM-dd -->
                     <#if column.dataType == 93>
