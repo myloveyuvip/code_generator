@@ -1,8 +1,5 @@
 package com.yuly.utils;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Properties;
@@ -26,10 +23,6 @@ public class PropertiesUtil {
 
     public static String getProperty(String key) {
         return getProperty("/config/genConf.properties", key);
-    }
-
-    public static void main(String[] args) {
-        Resource resource = new ClassPathResource("application.properties");
     }
 
 }
