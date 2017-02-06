@@ -44,4 +44,12 @@ public class ${table.upperJavaName}Controller extends BaseController {
     public Result export(HttpServletRequest request, ${table.upperJavaName} ${table.lowerJavaName}Form) {
         return ${table.lowerJavaName}Logic.export(${table.lowerJavaName}Form);
     }
+
+    @RmsModelOperation(modelName="${config.moduleName}模块",operation="删除")
+    @RequestMapping("/delete")
+    @ResponseBody
+    public Result delete(HttpServletRequest request, Integer id) {
+        smsLogLogic.delete(id);
+        return new Result();
+    }
 }

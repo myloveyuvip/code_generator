@@ -30,7 +30,7 @@ public class ${table.upperJavaName}Logic extends BaseLogic {
     public PagerBean<${table.upperJavaName}> ${table.lowerJavaName}List(PagerBean<${table.upperJavaName}> pager, ${table.upperJavaName} ${table
 .lowerJavaName}) {
         ${table.lowerJavaName}Service.findPaginated(pager, ${table.lowerJavaName});
-        format${table.upperJavaName}Show(pager.rows());
+        format${table.upperJavaName}Show(pager.getRows());
         return pager;
 }
 
@@ -70,5 +70,14 @@ public class ${table.upperJavaName}Logic extends BaseLogic {
 
         </#if>
         </#list>
+    }
+
+    /**
+     * 删除
+     *
+     * @param id
+     */
+    public void delete(Integer id) {
+        ${table.lowerJavaName}Service.delete(id);
     }
 }

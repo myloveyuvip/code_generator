@@ -1,5 +1,11 @@
 require(['select2', 'select2CN', 'bootstrapTable', 'bootstrapTableCN', 'bootstrap', 'layer'], function () {
 
+    layer.config({
+        path: '/res/js/plugins/layer/',
+        skin: 'layer-ext-moon',
+        extend: 'skin/moon/style.css'
+    });
+
     var buildParams = function(params) {
         var params2 = {}
         $.each($('#form').serializeArray(),function(i,e) {
@@ -75,6 +81,25 @@ require(['select2', 'select2CN', 'bootstrapTable', 'bootstrapTableCN', 'bootstra
 var operateFormatter = function (value, row) {
     var detailUrl = "/${table.lowerJavaName}/${table.lowerJavaName}Detail.do";
     var show = "<a onclick='OpenNewIframe(\"" + detailUrl + "?id=" + row.${table.primaryKeys[0]} + "\",\"详情\")'>详情</a>";
+    show += "&nbsp;&nbsp; <a onclick='deleteItem(" + row.id + ")'>删除</a>";
     return show;
 }
 
+var deleteItem = function (id, title) {
+    if (!title) {
+        title = "该数据";
+    }
+    var hint = "确定要删除" + title + "吗";
+    msg.confirm(hint, function (index) {
+        layer.close(index);
+        msg.load();
+        $.getJSON("/${table.lowerJavaName}/delete.do?id=" + id, function (jsonData) {
+            msg.load(true);
+            if (jsonData.code != 0) {
+                msg.warn(jsonData.message);
+            } else {
+                $("#table").bootstrapTable("refresh");
+            }
+        });
+    });
+}
