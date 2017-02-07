@@ -23,13 +23,14 @@ public class Application {
 
         TableLoader tableLoader = SpringUtil.getBean(TableLoader.class);
         List<TableModel> tableModelList = tableLoader.loadTableInfo("tbl_sms_log");
+        Generator generator = new Generator();
         if (tableModelList != null && tableModelList.size() > 0) {
             for (TableModel tableModel : tableModelList) {
-                Generator.createModel(tableModel);
-                Generator.createService(tableModel);
-                Generator.createLogic(tableModel);
-                Generator.createController(tableModel);
-                Generator.createView(tableModel);
+                generator.createModel(tableModel);
+                generator.createService(tableModel);
+                generator.createLogic(tableModel);
+                generator.createController(tableModel);
+                generator.createView(tableModel);
             }
         }
 
