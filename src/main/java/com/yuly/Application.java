@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yuly.db.TableLoader;
 import com.yuly.generator.Generator;
 import com.yuly.model.TableModel;
+import com.yuly.utils.PropertiesUtil;
 import com.yuly.utils.SpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +23,7 @@ public class Application {
         SpringUtil.setApplicationContext(applicationContext);
 
         TableLoader tableLoader = SpringUtil.getBean(TableLoader.class);
-        List<TableModel> tableModelList = tableLoader.loadTableInfo("tbl_sms_log");
+        List<TableModel> tableModelList = tableLoader.loadTableInfo(PropertiesUtil.getProperty("tableName"));
         Generator generator = new Generator();
         if (tableModelList != null && tableModelList.size() > 0) {
             for (TableModel tableModel : tableModelList) {

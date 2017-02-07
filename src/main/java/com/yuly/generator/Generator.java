@@ -8,7 +8,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
 import java.util.HashMap;
@@ -23,7 +22,7 @@ public class Generator {
     public void createFile(TableModel tableModel, String tplFileName, String outPath) {
         try {
             Configuration config = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
-            config.setDirectoryForTemplateLoading(new ClassPathResource("template").getFile());
+            config.setClassLoaderForTemplateLoading(this.getClass().getClassLoader(),"template");
             config.setDefaultEncoding("UTF-8");
             config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             config.setLogTemplateExceptions(false);
@@ -105,4 +104,5 @@ public class Generator {
         }
         return outDir2;
     }
+
 }

@@ -1,5 +1,7 @@
 package com.yuly.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Properties;
@@ -10,10 +12,24 @@ import java.util.Properties;
 public class PropertiesUtil {
 
 
-    public static String getProperty(String filePath,String key) {
+    public static String getProperty(String fileName,String key) {
         Properties properties = new Properties();
         try {
-            properties.load(new InputStreamReader(PropertiesUtil.class.getResourceAsStream(filePath),"UTF-8"));
+            String filePath = PropertiesUtil.class.getClassLoader().getResource("").getFile();
+            System.out.println("filePath:" + filePath + ";fileName:" + fileName);
+            filePath = filePath.substring(0, filePath.length() - 1);
+            filePath.substring(0, filePath.lastIndexOf("/"));
+            int begin = 0;
+            if (filePath.startsWith("file:/")) {
+                begin = 6;
+            }
+            File file = new File(filePath.substring(begin, filePath.lastIndexOf("/")+1)+fileName);
+            System.out.println(file.getAbsolutePath());
+            if (file.exists()) {
+                properties.load(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            } else {
+                properties.load(new InputStreamReader(PropertiesUtil.class.getResourceAsStream("/"+fileName),"UTF-8"));
+            }
             return properties.getProperty(key);
         } catch (IOException e) {
             e.printStackTrace();
@@ -22,7 +38,8 @@ public class PropertiesUtil {
     }
 
     public static String getProperty(String key) {
-        return getProperty("/config/genConf.properties", key);
+        return getProperty("application.properties", key);
     }
+
 
 }
