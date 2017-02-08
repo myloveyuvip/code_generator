@@ -16,15 +16,14 @@ public class PropertiesUtil {
         Properties properties = new Properties();
         try {
             String filePath = PropertiesUtil.class.getClassLoader().getResource("").getFile();
-            System.out.println("filePath:" + filePath + ";fileName:" + fileName);
             filePath = filePath.substring(0, filePath.length() - 1);
             filePath.substring(0, filePath.lastIndexOf("/"));
             int begin = 0;
+            //打成jar包的文件路径以'file:/'开头
             if (filePath.startsWith("file:/")) {
                 begin = 6;
             }
             File file = new File(filePath.substring(begin, filePath.lastIndexOf("/")+1)+fileName);
-            System.out.println(file.getAbsolutePath());
             if (file.exists()) {
                 properties.load(new InputStreamReader(new FileInputStream(file), "UTF-8"));
             } else {

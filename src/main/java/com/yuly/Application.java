@@ -23,18 +23,32 @@ public class Application {
         SpringUtil.setApplicationContext(applicationContext);
 
         TableLoader tableLoader = SpringUtil.getBean(TableLoader.class);
-        List<TableModel> tableModelList = tableLoader.loadTableInfo(PropertiesUtil.getProperty("tableName"));
-        Generator generator = new Generator();
-        if (tableModelList != null && tableModelList.size() > 0) {
-            for (TableModel tableModel : tableModelList) {
-                generator.createModel(tableModel);
-                generator.createService(tableModel);
-                generator.createLogic(tableModel);
-                generator.createController(tableModel);
-                generator.createView(tableModel);
+        String tableNames = PropertiesUtil.getProperty("tableName");
+        String toBeCreate = PropertiesUtil.getProperty("toBeCreate");
+        for (String tableName : tableNames.split(",")) {
+            List<TableModel> tableModelList = tableLoader.loadTableInfo(tableName);
+            Generator generator = new Generator();
+            if (tableModelList != null && tableModelList.size() > 0) {
+                for (TableModel tableModel : tableModelList) {
+                    if (toBeCreate.contains("model")) {
+                        generator.createModel(tableModel);
+                    }
+                    if (toBeCreate.contains("service")) {
+                        generator.createService(tableModel);
+                    }
+                    if (toBeCreate.contains("logic")) {
+                        generator.createLogic(tableModel);
+                    }
+                    if (toBeCreate.contains("controller")) {
+                        generator.createController(tableModel);
+                    }
+                    if (toBeCreate.contains("view")) {
+                        generator.createView(tableModel);
+                    }
+                }
             }
         }
-
+        //关闭应用
         SpringApplication.exit(applicationContext);
 
     }

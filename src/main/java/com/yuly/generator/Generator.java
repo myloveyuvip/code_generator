@@ -81,21 +81,21 @@ public class Generator {
                 tableModel.getColumnModels().remove(i);
             }
         }
-        String jspPath = PropertiesUtil.getProperty("out.dir") + "/webapp/" + PropertiesUtil.getProperty("module") + "/list" + tableModel
+        String jspPath = PropertiesUtil.getProperty("out.dir") + "/src/main/webapp/" + PropertiesUtil.getProperty("module") + "/list" + tableModel
                 .getUpperJavaName()
                 + ".jsp";
         createFile(tableModel, "list.jsp.ftl", jspPath);
-        String jsPath = PropertiesUtil.getProperty("out.dir") + "/webapp/" + PropertiesUtil.getProperty("module") + "/list" + tableModel
+        String jsPath = PropertiesUtil.getProperty("out.dir") + "/src/main/webapp/" + PropertiesUtil.getProperty("module") + "/list" + tableModel
                 .getUpperJavaName()
                 + ".js";
         createFile(tableModel, "list.js.ftl", jsPath);
         // TODO: 2017/1/23  默认生成导出功能，回头改成可配置
-        String xmlPath = PropertiesUtil.getProperty("out.dir") + "/webapp/config/export/" + tableModel.getLowerJavaName() + "_export.xml";
+        String xmlPath = PropertiesUtil.getProperty("out.dir") + "/src/main/webapp/config/export/" + tableModel.getLowerJavaName() + "_export.xml";
         createFile(tableModel, "export.xml.ftl", xmlPath);
     }
 
     private String getJavaOutDir(String modelName) {
-        String outDir = PropertiesUtil.getProperty("out.dir") + "/java/" + PropertiesUtil.getProperty("package.path") + "/" + modelName;
+        String outDir = PropertiesUtil.getProperty("out.dir") + "/src/main/java/" + PropertiesUtil.getProperty("package.path") + "/" + modelName;
         String outDir2 = "";
         if (!Strings.isNullOrEmpty(outDir)) {
             for (String pack : outDir.split("\\.")) {
