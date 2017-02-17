@@ -49,7 +49,7 @@ public class ${table.upperJavaName}Controller extends BaseController {
     @RequestMapping("/delete")
     @ResponseBody
     public Result delete(HttpServletRequest request, Integer id) {
-        smsLogLogic.delete(id);
+        ${table.lowerJavaName}Logic.delete(id);
         return new Result();
     }
 }
