@@ -80,7 +80,8 @@ require(['select2', 'select2CN', 'bootstrapTable', 'bootstrapTableCN', 'bootstra
 
 var operateFormatter = function (value, row) {
     var detailUrl = "/${table.lowerJavaName}/${table.lowerJavaName}Detail.do";
-    var show = "<a onclick='OpenNewIframe(\"" + detailUrl + "?id=" + row.${table.primaryKeys[0]} + "\",\"详情\")'>详情</a>";
+    //var show = "<a onclick='OpenNewIframe(\"" + detailUrl + "?id=" + row.${table.primaryKeys[0]} + "\",\"详情\")'>详情</a>";
+    var show = "";
     show += "&nbsp;&nbsp; <a onclick='deleteItem(" + row.id + ")'>删除</a>";
     return show;
 }
