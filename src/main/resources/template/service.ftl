@@ -1,7 +1,7 @@
 package ${config.packagePath}.service;
 
-import cn.nubia.tcm.framework.Service;
-import cn.nubia.tcm.common.PagerBean;
+import ${config.packagePath}.framework.Service;
+import ${config.packagePath}.common.PagerBean;
 import ${config.packagePath}.model.${table.upperJavaName};
 
 import java.util.List;

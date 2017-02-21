@@ -1,10 +1,10 @@
 package ${config.packagePath}.service.impl;
 
-import cn.nubia.tcm.common.PagerBean;
-import cn.nubia.tcm.framework.BaseService;
+import ${config.packagePath}.common.PagerBean;
+import ${config.packagePath}.framework.BaseService;
 import ${config.packagePath}.model.${table.upperJavaName};
 import ${config.packagePath}.service.${table.upperJavaName}Service;
-import cn.nubia.tcm.util.DateTool;
+import ${config.packagePath}.util.DateTool;
 import com.google.common.base.Strings;
 import org.springframework.stereotype.Service;
 

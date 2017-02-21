@@ -1,9 +1,9 @@
 package ${config.packagePath}.controller;
 
-import cn.nubia.tcm.common.PagerBean;
-import cn.nubia.tcm.common.Result;
-import cn.nubia.tcm.framework.annotation.RmsDataRight;
-import cn.nubia.tcm.framework.annotation.RmsModelOperation;
+import ${config.packagePath}.common.PagerBean;
+import ${config.packagePath}.common.Result;
+import ${config.packagePath}.framework.annotation.RmsDataRight;
+import ${config.packagePath}.framework.annotation.RmsModelOperation;
 import ${config.packagePath}.logic.${table.upperJavaName}Logic;
 import ${config.packagePath}.model.${table.upperJavaName};
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class ${table.upperJavaName}Controller extends BaseController {
     private ${table.upperJavaName}Logic ${table.lowerJavaName}Logic;
 
     @RequestMapping("/page/list")
-    @RmsModelOperation(modelName = "${config.moduleName}模块", operation = "查询跳转")
+    @RmsModelOperation(modelName = "${config.moduleName}模块", operation = "查询页面跳转")
     public String ${table.lowerJavaName}PageList(HttpServletRequest request) {
         ${table.lowerJavaName}Logic.${table.lowerJavaName}PageList(request);
         return "/${config.module}/list${table.upperJavaName}";

@@ -1,14 +1,14 @@
 package ${config.packagePath}.logic;
 
-import cn.nubia.tcm.cache.RedisCacheManage;
-import cn.nubia.tcm.common.Constants;
-import cn.nubia.tcm.common.DataTypeConstants;
-import cn.nubia.tcm.common.ModelConstants;
-import cn.nubia.tcm.common.PagerBean;
-import cn.nubia.tcm.common.Result;
+import ${config.packagePath}.cache.RedisCacheManage;
+import ${config.packagePath}.common.Constants;
+import ${config.packagePath}.common.DataTypeConstants;
+import ${config.packagePath}.common.ModelConstants;
+import ${config.packagePath}.common.PagerBean;
+import ${config.packagePath}.common.Result;
 import ${config.packagePath}.model.${table.upperJavaName};
 import ${config.packagePath}.service.${table.upperJavaName}Service;
-import cn.nubia.tcm.util.fileutil.FileUtils;
+import ${config.packagePath}.util.fileutil.FileUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
