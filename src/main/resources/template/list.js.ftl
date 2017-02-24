@@ -31,7 +31,7 @@ require(['select2', 'select2CN', 'bootstrapTable', 'bootstrapTableCN', 'bootstra
 
 
     //查询
-    $('#query-btn').click(function () {
+    $('#query-data-btn').click(function () {
         $('#table').bootstrapTable("refresh");
     });
 

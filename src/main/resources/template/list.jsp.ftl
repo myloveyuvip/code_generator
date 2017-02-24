@@ -66,14 +66,14 @@
                         <#if table.columnModels?size%3==0>
                         <div class="form-group">
                             <div class="col-sm-3 col-sm-offset-9 form-inline">
-                                <button type="button" class="btn btn-info" id="query-btn">查询</button>
+                                <button type="button" class="btn btn-info" id="query-data-btn">查询</button>
                                 <button type="button" class="btn btn-info" id="reset-btn" style="margin-left:5px">重置</button>
                                 <button type="button" class="btn btn-info" id="export-btn" style="margin-left:5px">导出</button>
                             </div>
                         </div>
                         <#else>
                             <div class="col-sm-3">
-                                <button type="button" class="btn btn-info" id="query-btn">查询</button>
+                                <button type="button" class="btn btn-info" id="query-data-btn">查询</button>
                                 <button type="button" class="btn btn-info" id="reset-btn" style="margin-left:5px">重置</button>
                                 <button type="button" class="btn btn-info" id="export-btn" style="margin-left:5px">导出</button>
                             </div>
